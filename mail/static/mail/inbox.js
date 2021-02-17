@@ -49,18 +49,20 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
-  let mail = document.createElement('div');
-  mail.setAttribute('class', 'list-group');
+  
+  // create table
+  let mail = document.createElement('table');
+  mail.setAttribute('class', 'table table-hover');
   mail.setAttribute('id', 'mailbox');
+  let tbody = document.createElement('tbody');
   document.querySelector('#emails-view').append(mail);
+  mail.append(tbody);
 
   // Show emails
   fetch(`emails/${mailbox}`)
   .then (response => response.json())
   .then( emails => listEmails(emails))
-
 }
-
 
 // Display emails in mailbox
 function listEmails(emails) {
@@ -69,22 +71,20 @@ function listEmails(emails) {
 
   for (let i = 0; i < emails.length; i++) {
     let info = [emails[i].sender, emails[i].subject, emails[i].timestamp]; 
-    let message = document.createElement('a');
-    message.setAttribute('href', '#');
-    message.setAttribute('class', 'd-flex list-group-item message list-group-item-action');
+    let message = document.createElement('tr');
+    message.setAttribute('id', `${emails[i].id}`);
     
     
     for (let j = 0; j < info.length; j++) {
-      let infoItem = document.createElement('div');
+      let infoItem = document.createElement('td');
       infoItem.setAttribute('class', `title${j}`);
       infoItem.innerHTML = info[j];
       message.append(infoItem);
     }
-    document.querySelector('#mailbox').append(message);
+    document.querySelector('tbody').append(message);
   }
-  let heading = document.createElement('div');
-  heading.setAttribute('class', 'd-flex list-group-item justify-content-between message list-group-item-action list-group-item-primary');
-  heading.innerHTML = "<div>Sender</div> <div>Subject</div> <div>Datetime Sent</div>";
+  let heading = document.createElement('thead');
+  heading.innerHTML = '<tr><th scope="col">Sender</th><th scope="col">Subject</th><th class="title2" scope="col">Timestamp</th></tr>';
   
   document.querySelector('#mailbox').prepend(heading);
   

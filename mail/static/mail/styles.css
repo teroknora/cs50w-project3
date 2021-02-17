@@ -5,3 +5,28 @@ textarea {
 .title0 {
     font-weight: bold;
 }
+
+
+.title2 {
+
+    text-align: right;
+}
+
+table {
+    border-bottom: 3px solid rgb(0, 123, 251);
+}
+
+thead {
+
+    border-top: none;
+}
+tbody {
+
+    border-left: 3px solid rgb(0, 123, 251);
+    border-right: 3px solid rgb(0, 123, 251);
+    border-top: 3px solid rgb(0, 123, 251);
+}
+
+tr {
+     border-bottom: 2px solid rgb(0, 123, 251);
+}
