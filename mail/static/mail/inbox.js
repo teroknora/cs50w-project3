@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function compose_email() {
 
   // Show compose view and hide other views
+  document.querySelector('#message-view').style.display = 'none';
   document.querySelector('#emails-view').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'block';
 
@@ -48,6 +49,7 @@ function load_mailbox(mailbox) {
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
+  document.querySelector('#message-view').style.display = 'none';
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
@@ -107,12 +109,22 @@ function listEmails(emails) {
 //Open and display individual email contents
 function load_message(message){
   console.log(message);
-  
+  const  messageView = document.querySelector('#message-view');
+  document.querySelector('#message-view').style.display = 'block';
+  document.querySelector('#emails-view').style.display = 'none';
   // Pass in table row id to call API
   fetch(`/emails/${message}`)
   .then(response => response.json())
   .then(email => {
     console.log(email);
+    messageView.innerHTML = `<p><strong>From: </strong>${email.sender}<br><strong>
+    To: </strong>${email.recipients}<br><strong>
+    Subject: </strong>${email.subject}<br><strong>
+    Time: </strong>${email.timestamp}</p>
+    <button class="btn btn-sm btn-outline-primary">Reply</button>
+    <hr>
+    <p>${email.body}</p>`
+    ;
   });
 
 
