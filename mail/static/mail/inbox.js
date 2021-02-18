@@ -1,10 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
+  // load_message(Event.currentTarget)
 
   // Use buttons to toggle between views
   document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));
   document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
+  
+  // Add event listeners to each message
+
   document.querySelector('#compose-form').onsubmit = () => { 
     fetch('/emails', {
       method: 'POST',
@@ -25,8 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // By default, load the inbox
   load_mailbox('inbox');
-
-
 });
 
 function compose_email() {
@@ -58,13 +60,14 @@ function load_mailbox(mailbox) {
   document.querySelector('#emails-view').append(mail);
   mail.append(tbody);
 
-  // Show emails
+  // Get and display emails
   fetch(`emails/${mailbox}`)
   .then (response => response.json())
   .then( emails => listEmails(emails))
+  console.log('emails loaded')
 }
 
-// Display emails in mailbox
+// Helper function to load_mailbox: Render emails from API
 function listEmails(emails) {
   
   console.log(emails)
@@ -74,7 +77,6 @@ function listEmails(emails) {
     let message = document.createElement('tr');
     message.setAttribute('id', `${emails[i].id}`);
     
-    
     for (let j = 0; j < info.length; j++) {
       let infoItem = document.createElement('td');
       infoItem.setAttribute('class', `title${j}`);
@@ -83,13 +85,41 @@ function listEmails(emails) {
     }
     document.querySelector('tbody').append(message);
   }
+
+  // Add heading
   let heading = document.createElement('thead');
   heading.innerHTML = '<tr><th scope="col">Sender</th><th scope="col">Subject</th><th class="title2" scope="col">Timestamp</th></tr>';
-  
   document.querySelector('#mailbox').prepend(heading);
+
+  // Add event listener to each email
+  test = document.querySelector('tr');
+  console.log(test);
+  rows = document.querySelectorAll('tr');
+  console.log(rows);
+  for (let i = 0; i < rows.length; i++) {
+    console.log('added');
+    rows[i].addEventListener('click', () => load_message(Event.currentTarget));
+  }
   
 }
 
+//Display email contents
+
+function load_message(message){
+  console.log(message);
+  // Pass in table row id to call API
+  let id = message.getAttribute('id');
+
+  fetch(`/emails/${id}`)
+  .then(response.json())
+  .then(email => {
+    console.log(email);
+  });
+
+
+
+}
  
      
- 
+
+
