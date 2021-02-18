@@ -97,21 +97,20 @@ function listEmails(emails) {
   rows = document.querySelectorAll('tr');
   console.log(rows);
   for (let i = 0; i < rows.length; i++) {
-    console.log('added');
-    rows[i].addEventListener('click', () => load_message(Event.currentTarget));
+    let row_id = rows[i].getAttribute('id');
+    rows[i].addEventListener('click', () => load_message(row_id));
+    console.log(row_id);
   }
   
 }
 
-//Display email contents
-
+//Open and display individual email contents
 function load_message(message){
   console.log(message);
+  
   // Pass in table row id to call API
-  let id = message.getAttribute('id');
-
-  fetch(`/emails/${id}`)
-  .then(response.json())
+  fetch(`/emails/${message}`)
+  .then(response => response.json())
   .then(email => {
     console.log(email);
   });
