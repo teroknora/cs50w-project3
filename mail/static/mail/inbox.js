@@ -53,9 +53,9 @@ function load_mailbox(mailbox) {
   
   // create table for email list
   let mail = document.createElement('table');
-  mail.setAttribute('class', 'table table-hover');
+  mail.setAttribute('class', 'table');
   mail.setAttribute('id', 'mailbox');
-  
+
   let tbody = document.createElement('tbody');
   document.querySelector('#emails-view').append(mail);
   mail.append(tbody);
@@ -67,14 +67,15 @@ function load_mailbox(mailbox) {
   console.log('emails loaded')
 }
 
-// Helper function to load_mailbox: translate API info into UI
+// Helper function to load_mailbox: translate API email info into UI
 function listEmails(emails) {
 
   // Loop through json response to list message info
   for (let i = 0; i < emails.length; i++) {
     let info = [emails[i].sender, emails[i].subject, emails[i].timestamp]; 
     let message = document.createElement('tr');
-    message.setAttribute('id', `${emails[i].id}`);
+    message.setAttribute('id', `${emails[i].id}`)
+    message.setAttribute('class', `read-${emails[i].read}`);
     
     for (let j = 0; j < info.length; j++) {
       let infoItem = document.createElement('td');
@@ -112,12 +113,50 @@ function load_message(message){
     To: </strong>${email.recipients}<br><strong>
     Subject: </strong>${email.subject}<br><strong>
     Time: </strong>${email.timestamp}</p>
-    <button class="btn btn-sm btn-outline-primary">Reply</button>
+    <button class="btn btn-sm btn-outline-primary" id="reply">Reply</button>
     <hr>
     <p>${email.body}</p>`;
+    document.querySelector('#reply').addEventListener('click', () => reply(email))
+    
+    // if marked as unread, mark as read
+    if (email.read === false){
+      fetch(`/emails/${email.id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          read: true
+        })
+      })
+    }
   });
 }
  
-     
+// reply to email     
+function reply(email){ 
+
+  // show compose view
+  document.querySelector('#message-view').style.display = 'none';
+  document.querySelector('#emails-view').style.display = 'none';
+  document.querySelector('#compose-view').style.display = 'block';
+
+  // fill fields with reply info
+  document.querySelector('#compose-recipients').value = email.sender;
+  document.querySelector('#compose-body').value = `
+  ---
+  On ${email.timestamp} ${email.sender} wrote:
+  
+  ${email.body}`;
+
+  // Add RE: if not already in subject
+  const isReply = email.subject.split(' ');
+  console.log(isReply[0]);
+  if (isReply[0] != 'RE:'){
+    document.querySelector('#compose-subject').value = `RE: ${email.subject}`;
+    }
+  else {
+    document.querySelector('#compose-subject').value = email.subject;
+  }
+}
+
+
 
 

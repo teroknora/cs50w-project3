@@ -30,3 +30,15 @@ tbody {
 tr {
      border-bottom: 2px solid rgb(0, 123, 251);
 }
+
+tr:hover {
+    
+   box-shadow: inset 0px 0px 8px 4px rgb(189, 188, 188);
+}
+
+.read-true {
+
+    color: grey;
+    background-color:rgb(240, 240, 240);
+    border: 2px solid grey;
+}
