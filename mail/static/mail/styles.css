@@ -12,33 +12,34 @@ textarea {
     text-align: right;
 }
 
-table {
-    border-bottom: 3px solid rgb(0, 123, 251);
-}
-
-thead {
-
-    border-top: none;
-}
 tbody {
 
-    border-left: 3px solid rgb(0, 123, 251);
-    border-right: 3px solid rgb(0, 123, 251);
-    border-top: 3px solid rgb(0, 123, 251);
+    border: 3px solid rgb(0, 123, 251);
 }
 
 tr {
-     border-bottom: 2px solid rgb(0, 123, 251);
+     border: 2px solid rgb(0, 123, 251);
+     transition-duration: .3s;
 }
+
 
 tr:hover {
     
-   box-shadow: inset 0px 0px 8px 4px rgb(189, 188, 188);
+   box-shadow: inset 0px 0px 10px 1px rgb(189, 188, 188, .9);
 }
+
+thead tr {
+    border: none;
+}
+thead tr:hover {
+    box-shadow: none;
+}
+
+
 
 .read-true {
 
     color: grey;
-    background-color:rgb(240, 240, 240);
-    border: 2px solid grey;
+    background-color:rgb(235, 235, 235, .7);
+    border: 1px solid grey;
 }

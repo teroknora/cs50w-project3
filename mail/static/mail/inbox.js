@@ -98,13 +98,15 @@ function listEmails(emails) {
     console.log(row_id);
   }
 }
+
+
 //Open and display individual email contents
 function load_message(message){
   const  messageView = document.querySelector('#message-view');
   messageView.style.display = 'block';
   document.querySelector('#emails-view').style.display = 'none';
 
-  // Pass in table row id to call API to get corresponding messsage details
+  // Pass in table row id to call API to get corresponding messsage details and render in UI
   fetch(`/emails/${message}`)
   .then(response => response.json())
   .then(email => {
@@ -114,11 +116,24 @@ function load_message(message){
     Subject: </strong>${email.subject}<br><strong>
     Time: </strong>${email.timestamp}</p>
     <button class="btn btn-sm btn-outline-primary" id="reply">Reply</button>
+    <button class="btn btn-sm btn-outline-secondary" id="archive"></button>
     <hr>
     <p>${email.body}</p>`;
+
+    // if email is archived, show unarchive button, else archive button
+    if (email.archived === true){
+      document.querySelector('#archive').innerHTML = 'Unarchive';
+    }
+    else {
+      document.querySelector('#archive').innerHTML = 'Archive';
+    }
+
+    // Add event listeners for programatically generated buttons
     document.querySelector('#reply').addEventListener('click', () => reply(email))
+    document.querySelector('#archive').addEventListener('click', () => archive(email))
+
     
-    // if marked as unread, mark as read
+    // if email marked as unread, mark as read
     if (email.read === false){
       fetch(`/emails/${email.id}`, {
         method: 'PUT',
@@ -157,6 +172,25 @@ function reply(email){
   }
 }
 
-
-
+// Archive or unarchive email
+function archive(email) {
+  console.log('archive start')
+  if (email.archived === true) {
+    fetch(`/emails/${email.id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        archived: false
+      })
+    })
+  }
+  else {
+    fetch(`/emails/${email.id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        archived: true
+      })
+    })
+  }
+  load_mailbox('inbox');
+}
 
