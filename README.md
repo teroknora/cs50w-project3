@@ -1,15 +1,15 @@
-# cs50w-project3# cs50w-project-3
+# cs50w-project3: Front End Mail Client with Vanilla JS
 
 ## About
 
 Project 3 from Harvard's CS50W: Web Programming with Python and Javascript.
 
 Assignment: create the front-end for a mail client that makes API calls.
-The bulk of the project consisted of writing js.
+The bulk of the project consisted of writing js; the backend was provided in the distro code.
 
 Full assignment and supplemental info here: https://cs50.harvard.edu/web/2020/projects/3/mail/
 Distro code here: https://cdn.cs50.net/web/2020/spring/projects/3/mail.zip 
-Distribution code included django backend + API, html files, and beginings of of the js file.
+Distribution code included python code + API, html files, and beginings of of the js file.
 
 ### TODO
 *Comment orginal distro code to distiguish from mine.*
