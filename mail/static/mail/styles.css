@@ -26,6 +26,7 @@ tr {
 tr:hover {
     
    box-shadow: inset 0px 0px 10px 1px rgb(189, 188, 188, .9);
+   cursor: pointer;
 }
 
 thead tr {
@@ -33,6 +34,8 @@ thead tr {
 }
 thead tr:hover {
     box-shadow: none;
+    cursor: auto;
+
 }
 
 

@@ -19,9 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(result => {
         // Print result
         console.log(result);
-        return false;
+        load_mailbox('sent');
     });
-    return load_mailbox('sent');
+    return false;
   };
 
   // By default, load the inbox
@@ -95,7 +95,6 @@ function listEmails(emails) {
   for (let i = 0; i < rows.length; i++) {
     let row_id = rows[i].getAttribute('id');
     rows[i].addEventListener('click', () => load_message(row_id));
-    console.log(row_id);
   }
 }
 
